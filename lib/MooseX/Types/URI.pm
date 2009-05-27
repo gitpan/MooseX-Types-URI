@@ -5,7 +5,7 @@ package MooseX::Types::URI;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 use Scalar::Util qw(blessed);
 
@@ -17,7 +17,8 @@ use URI::FromHash qw(uri);
 
 use Moose::Util::TypeConstraints;
 
-use MooseX::Types::Path::Class;
+use MooseX::Types::Moose qw{Str ScalarRef HashRef};
+use MooseX::Types::Path::Class qw{File Dir};
 
 use namespace::clean;
 
@@ -41,30 +42,33 @@ my $uri = Moose::Meta::TypeConstraint->new(
 register_type_constraint($uri);
 
 coerce( Uri,
-    from Str                 => via { URI->new($_) },
-    from "Path::Class::File" => via { URI::file->new($_) },
-    from "Path::Class::Dir"  => via { URI::file->new($_) },
-    from ScalarRef           => via { my $u = URI->new("data:"); $u->data($$_); $u },
-    from HashRef             => via { uri(%$_) },
+    from Str                 , via { URI->new($_) },
+    from "Path::Class::File" , via { URI::file->new($_) },
+    from "Path::Class::Dir"  , via { URI::file->new($_) },
+    from File                , via { URI::file->new($_) },
+    from Dir                 , via { URI::file->new($_) },
+    from ScalarRef           , via { my $u = URI->new("data:"); $u->data($$_); $u },
+    from HashRef             , via { uri(%$_) },
 );
 
 class_type FileUri, { class => "URI::file", parent => $uri };
 
 coerce( FileUri,
-    from Str                 => via { URI::file->new($_) },
-    from "Path::Class::File" => via { URI::file->new($_) },
-    from "Path::Class::Dir"  => via { URI::file->new($_) },
+    from Str                 , via { URI::file->new($_) },
+    from File                , via { URI::file->new($_) },
+    from Dir                 , via { URI::file->new($_) },
+    from "Path::Class::File" , via { URI::file->new($_) },
+    from "Path::Class::Dir"  , via { URI::file->new($_) },
 );
 
 class_type DataUri, { class => "URI::data" };
 
 coerce( DataUri,
-    from Str       => via { my $u = URI->new("data:"); $u->data($_);  $u },
-    from ScalarRef => via { my $u = URI->new("data:"); $u->data($$_); $u },
+    from Str       , via { my $u = URI->new("data:"); $u->data($_);  $u },
+    from ScalarRef , via { my $u = URI->new("data:"); $u->data($$_); $u },
 );
 
-__PACKAGE__
-
+1;
 __END__
 
 =pod
@@ -124,7 +128,7 @@ Think about L<Path::Resource> integration of some sort
 
 =head1 VERSION CONTROL
 
-L<http://code2.0beta.co.uk/moose/svn/>. Ask on #moose for commit bits.
+L<http://github.com/nothingmuch/moosex-types-uri/>
 
 =head1 AUTHOR
 
