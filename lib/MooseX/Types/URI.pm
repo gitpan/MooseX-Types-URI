@@ -5,7 +5,7 @@ package MooseX::Types::URI;
 use strict;
 use warnings;
 
-our $VERSION = "0.02";
+our $VERSION = "0.03";
 
 use Scalar::Util qw(blessed);
 
@@ -33,10 +33,10 @@ my $uri = Moose::Meta::TypeConstraint->new(
             class_type( _UriWithBase, { class => "URI::WithBase" } ),
         ],
     ),
-    optimized => sub {
-        local $@;
-        blessed($_[0]) && ( $_[0]->isa("URI") || $_[0]->isa("URI::WithBase") )
-    },
+    ($Moose::VERSION >= 2.0100
+        ? (inline_as => sub { 'local $@; blessed('.$_[1].') && ( '.$_[1].'->isa("URI") || '.$_[1].'->isa("URI::WithBase") )' })
+        : (optimized => sub { local $@; blessed($_[0]) && ( $_[0]->isa("URI") || $_[0]->isa("URI::WithBase") ) })
+    ),
 );
 
 register_type_constraint($uri);
