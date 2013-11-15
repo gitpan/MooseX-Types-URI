@@ -1,11 +1,16 @@
-#!/usr/bin/perl
-
 package MooseX::Types::URI;
+{
+  $MooseX::Types::URI::VERSION = '0.04';
+}
+# git description: v0.03-13-g12fbecb
+
+BEGIN {
+  $MooseX::Types::URI::AUTHORITY = 'cpan:NUFFIN';
+}
+# ABSTRACT: URI related types and coercions for Moose
 
 use strict;
 use warnings;
-
-our $VERSION = "0.03";
 
 use Scalar::Util qw(blessed);
 
@@ -13,14 +18,14 @@ use URI;
 use URI::file;
 use URI::data;
 use URI::WithBase;
-use URI::FromHash qw(uri);
+use URI::FromHash qw(uri_object);
 
 use Moose::Util::TypeConstraints;
 
 use MooseX::Types::Moose qw{Str ScalarRef HashRef};
 use MooseX::Types::Path::Class qw{File Dir};
 
-use namespace::clean;
+use namespace::autoclean;
 
 use MooseX::Types -declare => [qw(Uri _UriWithBase _Uri FileUri DataUri)];
 
@@ -48,7 +53,7 @@ coerce( Uri,
     from File                , via { URI::file->new($_) },
     from Dir                 , via { URI::file->new($_) },
     from ScalarRef           , via { my $u = URI->new("data:"); $u->data($$_); $u },
-    from HashRef             , via { uri(%$_) },
+    from HashRef             , via { uri_object(%$_) },
 );
 
 class_type FileUri, { class => "URI::file", parent => $uri };
@@ -69,13 +74,16 @@ coerce( DataUri,
 );
 
 1;
+
 __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
-MooseX::Types::URI - L<URI> related types and coercions for Moose
+MooseX::Types::URI - URI related types and coercions for Moose
 
 =head1 SYNOPSIS
 
@@ -85,18 +93,9 @@ MooseX::Types::URI - L<URI> related types and coercions for Moose
 
 This package provides Moose types for fun with L<URI>s.
 
-It has slightly DWIMier types than the L<URI> classes have due to
-implementation details, so the types should be more forgiving when ducktyping
-will work anyway (e.g. L<URI::WithBase> does not inherit L<URI>).
-
 =head1 TYPES
 
-The types are with C<ucfirst> naming convention so that they don't mask the
-L<URI> class.
-
-=over 4
-
-=item Uri
+=head2 C<Uri>
 
 Either L<URI> or L<URI::WithBase>
 
@@ -108,36 +107,74 @@ Coerces from C<ScalarRef> via L<URI::data/new>.
 
 Coerces from C<HashRef> using L<URI::FromHash>.
 
-=item DataUri
+=head2 C<DataUri>
 
 A URI whose scheme is C<data>.
 
 Coerces from C<Str> and C<ScalarRef> via L<URI::data/new>.
 
-=item FileUri
+=head2 C<FileUri>
 
 A L<URI::file> class type.
 
 Has coercions from C<Str>, L<Path::Class::File> and L<Path::Class::Dir> via L<URI::file/new>
 
-=back
+=for stopwords DWIMier ducktyping
+
+It has slightly DWIMier types than the L<URI> classes have due to
+implementation details, so the types should be more forgiving when ducktyping
+will work anyway (e.g. L<URI::WithBase> does not inherit L<URI>).
+
+=head1 TYPES
+
+The types are with C<ucfirst> naming convention so that they don't mask the
+L<URI> class.
+
+=for stopwords TODO
 
 =head1 TODO
 
 Think about L<Path::Resource> integration of some sort
 
-=head1 VERSION CONTROL
-
-L<http://github.com/nothingmuch/moosex-types-uri/>
-
 =head1 AUTHOR
 
-Yuval Kogman E<lt>nothingmuch@woobling.orgE<gt>
+יובל קוג'מן (Yuval Kogman) <nothingmuch@woobling.org>
 
-=head1 COPYRIGHT
+=head1 CONTRIBUTORS
 
-	Copyright (c) 2008 Yuval Kogman. All rights reserved
-	This program is free software; you can redistribute
-	it and/or modify it under the same terms as Perl itself.
+=over 4
+
+=item *
+
+Daniel Pittman <daniel@rimspace.net>
+
+=item *
+
+Florian Ragwitz <rafl@debian.org>
+
+=item *
+
+Karen Etheridge <ether@cpan.org>
+
+=item *
+
+MORIYA Masaki (gardejo) <moriya@ermitejo.com>
+
+=item *
+
+Shawn M Moore <sartak@gmail.com>
+
+=item *
+
+Yuval Kogman <nothingmuch@woobling.org>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2008 by יובל קוג'מן (Yuval Kogman).
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
