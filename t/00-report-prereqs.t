@@ -30,7 +30,7 @@ my @modules = qw(
   URI::WithBase
   URI::data
   URI::file
-  namespace::autoclean
+  if
   ok
   perl
   strict

@@ -1,8 +1,8 @@
 package MooseX::Types::URI;
 {
-  $MooseX::Types::URI::VERSION = '0.04';
+  $MooseX::Types::URI::VERSION = '0.05';
 }
-# git description: v0.03-13-g12fbecb
+# git description: v0.04-3-gc795060
 
 BEGIN {
   $MooseX::Types::URI::AUTHORITY = 'cpan:NUFFIN';
@@ -24,8 +24,6 @@ use Moose::Util::TypeConstraints;
 
 use MooseX::Types::Moose qw{Str ScalarRef HashRef};
 use MooseX::Types::Path::Class qw{File Dir};
-
-use namespace::autoclean;
 
 use MooseX::Types -declare => [qw(Uri _UriWithBase _Uri FileUri DataUri)];
 
