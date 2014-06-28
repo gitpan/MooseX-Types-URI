@@ -1,5 +1,10 @@
 Revision history for MooseX-Types-URI
 
+0.06      2014-06-28 17:00:56Z
+  - better fix for fully-qualified type names, made to MooseX::Types directly
+  - load URI::file, URI::data, URI::FromHash dynamically only when used
+    (Olivier Mengué).
+
 0.05      2013-12-17 23:20:10Z
   - fully-qualified type names like MooseX::Types::URI::Uri work again
     (removed in 0.04)
