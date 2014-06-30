@@ -35,7 +35,7 @@ no_index:
 provides:
   MooseX::Types::URI:
     file: lib/MooseX/Types/URI.pm
-    version: '0.06'
+    version: '0.07'
 requires:
   Moose::Util::TypeConstraints: '0'
   MooseX::Types: '0.40'
@@ -49,6 +49,7 @@ requires:
   URI::data: '0'
   URI::file: '0'
   if: '0'
+  namespace::autoclean: '0'
   perl: '5.006'
   strict: '0'
   warnings: '0'
@@ -58,7 +59,7 @@ resources:
   bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=MooseX-Types-URI
   homepage: https://github.com/moose/MooseX-Types-URI
   repository: https://github.com/moose/MooseX-Types-URI.git
-version: '0.06'
+version: '0.07'
 x_Dist_Zilla:
   perl:
     version: '5.021001'
@@ -74,6 +75,33 @@ x_Dist_Zilla:
           repo_root: .
       name: '@Author::ETHER/Git::NextVersion'
       version: '2.023'
+    -
+      class: Dist::Zilla::Plugin::EnsurePrereqsInstalled
+      name: '@Author::ETHER/EnsurePrereqsInstalled'
+      version: '0.004'
+    -
+      class: Dist::Zilla::Plugin::PromptIfStale
+      config:
+        Dist::Zilla::Plugin::PromptIfStale:
+          check_all_plugins: 0
+          check_all_prereqs: 0
+          modules:
+            - Dist::Zilla::PluginBundle::Author::ETHER
+          phase: build
+          skip: []
+      name: '@Author::ETHER/build'
+      version: '0.023'
+    -
+      class: Dist::Zilla::Plugin::PromptIfStale
+      config:
+        Dist::Zilla::Plugin::PromptIfStale:
+          check_all_plugins: '1'
+          check_all_prereqs: '1'
+          modules: []
+          phase: release
+          skip: []
+      name: '@Author::ETHER/release'
+      version: '0.023'
     -
       class: Dist::Zilla::Plugin::ExecDir
       name: '@Author::ETHER/ExecDir'
@@ -453,6 +481,10 @@ x_Dist_Zilla:
       name: '@Author::ETHER/CheckPrereqsIndexed'
       version: '0.012'
     -
+      class: Dist::Zilla::Plugin::TestRelease
+      name: '@Author::ETHER/TestRelease'
+      version: '5.019'
+    -
       class: Dist::Zilla::Plugin::Git::Check
       config:
         Dist::Zilla::Plugin::Git::Check:
@@ -503,7 +535,7 @@ x_Dist_Zilla:
         Dist::Zilla::Plugin::Git::Tag:
           branch: ~
           signed: 0
-          tag: v0.06
+          tag: v0.07
           tag_format: v%v%t
           tag_message: v%v%t
           time_zone: local
@@ -514,7 +546,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::GitHub::Update
       name: '@Author::ETHER/GitHub::Update'
-      version: '0.36'
+      version: '0.38'
     -
       class: Dist::Zilla::Plugin::Git::Push
       config:
@@ -537,6 +569,10 @@ x_Dist_Zilla:
           phase: develop
           type: requires
       name: '@Author::ETHER/via_options'
+      version: '5.019'
+    -
+      class: Dist::Zilla::Plugin::ConfirmRelease
+      name: '@Author::ETHER/ConfirmRelease'
       version: '5.019'
     -
       class: Dist::Zilla::Plugin::Prereqs

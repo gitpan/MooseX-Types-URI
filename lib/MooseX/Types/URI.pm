@@ -2,8 +2,8 @@ package MooseX::Types::URI;
 BEGIN {
   $MooseX::Types::URI::AUTHORITY = 'cpan:NUFFIN';
 }
-# git description: v0.05-16-g576eea8
-$MooseX::Types::URI::VERSION = '0.06';
+# git description: v0.06-3-gd3fe48a
+$MooseX::Types::URI::VERSION = '0.07';
 # ABSTRACT: URI related types and coercions for Moose
 # KEYWORDS: moose types constraints coercions uri path web
 
@@ -82,7 +82,7 @@ MooseX::Types::URI - URI related types and coercions for Moose
 
 =head1 VERSION
 
-version 0.06
+version 0.07
 
 =head1 SYNOPSIS
 

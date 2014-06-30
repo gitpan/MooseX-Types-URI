@@ -92,6 +92,7 @@ my %WriteMakefileArgs = (
     "URI::data" => 0,
     "URI::file" => 0,
     "if" => 0,
+    "namespace::autoclean" => 0,
     "strict" => 0,
     "warnings" => 0
   },
@@ -104,7 +105,7 @@ my %WriteMakefileArgs = (
     "ok" => 0,
     "version" => 0
   },
-  "VERSION" => "0.06",
+  "VERSION" => "0.07",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -129,6 +130,7 @@ my %FallbackPrereqs = (
   "URI::data" => 0,
   "URI::file" => 0,
   "if" => 0,
+  "namespace::autoclean" => 0,
   "ok" => 0,
   "strict" => 0,
   "version" => 0,

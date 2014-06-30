@@ -9,7 +9,6 @@ use Test::NoTabs;
 my @files = (
     'lib/MooseX/Types/URI.pm',
     't/00-report-prereqs.t',
-    't/06-fully-qualified.t',
     't/basic.t',
     't/fully-qualified.t',
     't/zzz-check-breaks.t',

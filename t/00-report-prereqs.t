@@ -78,6 +78,7 @@ my $static_prereqs = do { my $x = {
                                       'Test::NoTabs' => '0',
                                       'Test::Pod' => '1.41',
                                       'Test::Pod::Coverage' => '1.08',
+                                      'Test::Requires' => '0',
                                       'Test::Spelling' => '0.12',
                                       'Test::Warnings' => '0'
                                     }
@@ -96,6 +97,7 @@ my $static_prereqs = do { my $x = {
                                       'URI::data' => '0',
                                       'URI::file' => '0',
                                       'if' => '0',
+                                      'namespace::autoclean' => '0',
                                       'perl' => '5.006',
                                       'strict' => '0',
                                       'warnings' => '0'
